@@ -3,8 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 export const NavContainer = styled('div', {
   height: '100vh',
-  minWidth: '17rem',
-  padding: '$5',
+  padding: '$5 0 $5 $5',
   display: 'flex'
 })
 
@@ -109,11 +108,6 @@ export const LogoutButton = styled('button', {
     overflow: 'hidden',
     textOverflow: 'ellipsis'
 
-  },
-
-  'img': {
-    borderRadius: '$full',
-    border: '1px solid $gray400'
   },
 
   '&:hover': {

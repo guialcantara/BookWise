@@ -10,6 +10,9 @@ export default function Login() {
   async function handleSignInGithub() {
     await signIn('github')
   }
+  async function handleSignInGoogle() {
+    await signIn('google')
+  }
 
   if (session.status === 'authenticated') {
     router.push('/home')
@@ -25,7 +28,7 @@ export default function Login() {
           <h2>Boas vindas!</h2>
           <p>Faça seu login ou acesse como visitante.</p>
         </Title>
-        <LoginButton>
+        <LoginButton onClick={handleSignInGoogle}>
           <Image src={googleIcon} alt="google logo" />
           Entrar com Google
         </LoginButton>

@@ -4,7 +4,8 @@ import { ActiveIndicator, LoginButton, LogoutButton, MenuLink, NavContainer, Nav
 import { useRouter } from 'next/router'
 import { ReactElement } from "react";
 import { Binoculars, ChartLineUp, SignIn, SignOut, User } from "phosphor-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { Avatar } from '../Avatar';
 
 interface ActiveLinkProps {
   href: string,
@@ -16,7 +17,7 @@ interface ActiveLinkProps {
 function ActiveLink({ icon, title, href }: ActiveLinkProps) {
   const router = useRouter()
   const isActive = router.asPath === href
-  console.log(isActive, href)
+
   return (
     <MenuLink href={href} active={isActive}>
       <ActiveIndicator invisible={!isActive} />
@@ -29,8 +30,6 @@ function ActiveLink({ icon, title, href }: ActiveLinkProps) {
 export function Navbar() {
   const session = useSession()
 
-  console.log(session)
-
   const authenticated = session.status === "authenticated"
   return <NavContainer>
     <NavContent>
@@ -39,15 +38,15 @@ export function Navbar() {
 
         <ActiveLink href="/home" icon={<ChartLineUp size={24} />} title="Início" />
         <ActiveLink href="/explore" icon={<Binoculars size={24} />} title="Explorar" />
-        {authenticated &&(
+        {authenticated && (
 
-        <ActiveLink href="/profile" icon={<User size={24} />} title="Perfil" />
+          <ActiveLink href="/profile" icon={<User size={24} />} title="Perfil" />
         )}
       </section>
       {authenticated
         ? (
-          <LogoutButton>
-            <Image src={session.data?.user?.image || ""} alt="avatar" width={40} height={40} />
+          <LogoutButton onClick={() => signOut()}>
+            <Avatar src={session.data?.user?.image || ""}/>
             <p title={session.data?.user?.name || ""}>
               {session.data?.user?.name}
             </p>
