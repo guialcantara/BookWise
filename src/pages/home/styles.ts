@@ -1,19 +1,19 @@
-import { styled } from "@/stitches.config";
+import { styled } from '@/stitches.config'
 
 export const HomeContainer = styled('div', {
   margin: '0 6rem',
   flex: 1,
   display: 'flex',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
 })
 
 export const PageTitle = styled('div', {
   display: 'flex',
   gap: '$4',
   marginBottom: '$10',
-  'svg': {
-    color: '$green100'
-  }
+  svg: {
+    color: '$green100',
+  },
 })
 
 export const RecentReviewsList = styled('div', {
@@ -21,13 +21,12 @@ export const RecentReviewsList = styled('div', {
   flexDirection: 'column',
   gap: '$3',
   width: '600px',
-  '> p':{
+  '> p': {
     color: '$gray100',
-    fontSize: '$sm'
-  }
+    fontSize: '$sm',
+  },
 })
 
-
-export const PopularBooks = styled('ul',{
-  listStyle: 'none'
+export const PopularBooks = styled('ul', {
+  listStyle: 'none',
 })

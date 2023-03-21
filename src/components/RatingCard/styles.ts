@@ -1,4 +1,4 @@
-import { styled } from "@/stitches.config"
+import { styled } from '@/stitches.config'
 
 export const Card = styled('div', {
   width: '100%',
@@ -8,13 +8,12 @@ export const Card = styled('div', {
   background: '$gray700',
   borderRadius: '$md',
   padding: '$5',
-
 })
 
 export const CardHeader = styled('header', {
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
 })
 
 export const CardContent = styled('main', {
@@ -22,29 +21,27 @@ export const CardContent = styled('main', {
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: '$4',
-  'div': {
+  div: {
     display: 'flex',
     flexDirection: 'column',
     gap: '$1',
-    minHeight: '150px'
+    minHeight: '150px',
   },
-  'span': {
+  span: {
     fontSize: '$sm',
     color: '$gray400',
-    marginBottom: '$6'
+    marginBottom: '$6',
   },
-
 })
 
 export const ProfileSection = styled('div', {
   display: 'flex',
   gap: '$4',
-  'span': {
+  span: {
     fontSize: '$sm',
-    color: '$gray400'
+    color: '$gray400',
   },
-  'p': {
-    color: '$gray100'
-  }
-
+  p: {
+    color: '$gray100',
+  },
 })

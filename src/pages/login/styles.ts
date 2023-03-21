@@ -1,10 +1,10 @@
-import { styled } from "../../stitches.config";
+import { styled } from '../../stitches.config'
 
 export const LoginContainer = styled('div', {
   width: '100vw',
   height: '100vh',
   display: 'flex',
-  padding: '$5'
+  padding: '$5',
 })
 
 export const LoginButton = styled('button', {
@@ -23,8 +23,8 @@ export const LoginButton = styled('button', {
   transition: 'all .5s',
   '&:hover': {
     background: '$gray500',
-    cursor: 'pointer'
-  }
+    cursor: 'pointer',
+  },
 })
 
 export const ButtonArea = styled('div', {
@@ -33,7 +33,7 @@ export const ButtonArea = styled('div', {
   flex: '1',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: '$4'
+  gap: '$4',
 })
 
 export const Title = styled('div', {
@@ -44,18 +44,18 @@ export const Title = styled('div', {
   gap: '$4',
   width: '27.5rem',
   marginBottom: '1.5rem',
-  'p': {
+  p: {
     fontSize: '16px',
-  }
+  },
 })
 
 export const ImageContainer = styled('div', {
   maxWidth: '822px',
   display: 'flex',
   justifyContent: 'start',
-  'img': {
+  img: {
     objectFit: 'contain',
     height: '100%',
-    width: '100%'
-  }
+    width: '100%',
+  },
 })

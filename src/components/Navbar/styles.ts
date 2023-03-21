@@ -1,10 +1,10 @@
-import { styled } from "@/stitches.config";
-import Image from "next/image";
-import Link from "next/link";
+import { styled } from '@/stitches.config'
+import Image from 'next/image'
+import Link from 'next/link'
 export const NavContainer = styled('div', {
   height: '100vh',
   padding: '$5 0 $5 $5',
-  display: 'flex'
+  display: 'flex',
 })
 
 export const NavContent = styled('div', {
@@ -19,16 +19,15 @@ export const NavContent = styled('div', {
   justifyContent: 'space-between',
   padding: '2.5rem',
 
-  'section': {
+  section: {
     display: 'flex',
     flexDirection: 'column',
     gap: '$4',
   },
   'section img': {
-    marginBottom: '4rem'
-  }
+    marginBottom: '4rem',
+  },
 })
-
 
 export const MenuLink = styled(Link, {
   display: 'flex',
@@ -50,11 +49,10 @@ export const MenuLink = styled(Link, {
       false: {
         fontWeight: '$regular',
         color: '$gray400',
-      }
-    }
-  }
+      },
+    },
+  },
 })
-
 
 export const ActiveIndicator = styled('div', {
   height: '100%',
@@ -65,13 +63,13 @@ export const ActiveIndicator = styled('div', {
   variants: {
     invisible: {
       true: {
-        background: 'transparent'
+        background: 'transparent',
       },
       false: {
         background: '$gradient-vertical',
-      }
-    }
-  }
+      },
+    },
+  },
 })
 
 export const LoginButton = styled('button', {
@@ -81,15 +79,14 @@ export const LoginButton = styled('button', {
   alignItems: 'center',
   gap: '$2',
   transition: 'all 0.3s',
-  'svg': {
-    color: '$green100'
+  svg: {
+    color: '$green100',
   },
 
   '&:hover': {
     cursor: 'pointer',
-    filter: 'brightness(0.8)'
-  }
-
+    filter: 'brightness(0.8)',
+  },
 })
 export const LogoutButton = styled('button', {
   all: 'unset',
@@ -98,21 +95,19 @@ export const LogoutButton = styled('button', {
   alignItems: 'center',
   justifyContent: 'center',
   transition: 'all 0.3s',
-  'svg': {
+  svg: {
     color: '#F75A68',
   },
 
-  'p': {
+  p: {
     maxWidth: '100px',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
-
+    textOverflow: 'ellipsis',
   },
 
   '&:hover': {
     cursor: 'pointer',
-    filter: 'brightness(0.8)'
-  }
-
+    filter: 'brightness(0.8)',
+  },
 })

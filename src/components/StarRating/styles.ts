@@ -1,5 +1,5 @@
-import { styled } from "@/stitches.config";
+import { styled } from '@/stitches.config'
 
-export const StarContainer = styled('div',{
-  color: '$purple100'
+export const StarContainer = styled('div', {
+  color: '$purple100',
 })

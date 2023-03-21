@@ -1,6 +1,5 @@
-
-import { createStitches } from '@stitches/react';
-import { sidebarBg } from './assets';
+import { createStitches } from '@stitches/react'
+import { sidebarBg } from './assets'
 export const { styled, getCssText } = createStitches({
   theme: {
     fonts: {
@@ -64,7 +63,7 @@ export const { styled, getCssText } = createStitches({
 
       'gradient-vertical': `linear-gradient(180deg, #7FD1CC 0%, #9694F5 100%)`,
       'gradient-horizontal': `linear-gradient(90deg, #7FD1CC 0%, #9694F5 100%)`,
-      sidebarBg: `url(${sidebarBg.src})`
+      sidebarBg: `url(${sidebarBg.src})`,
     },
     radii: {
       xs: '2.5px',

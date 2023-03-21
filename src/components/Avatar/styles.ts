@@ -1,6 +1,4 @@
-
-import { styled } from "@/stitches.config";
-
+import { styled } from '@/stitches.config'
 
 export const AvatarContainer = styled('div', {
   position: 'relative',
@@ -8,10 +6,10 @@ export const AvatarContainer = styled('div', {
   borderRadius: '$full',
   width: '42px',
   height: '42px',
-  'img': {
+  img: {
     borderRadius: '$full',
     position: 'absolute',
     top: 1,
-    left: 1
-  }
+    left: 1,
+  },
 })

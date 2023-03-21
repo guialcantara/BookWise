@@ -5,5 +5,4 @@ import visitionIcon from './IconVisitor.png'
 import sidebarBg from './SidebarBg.png'
 import logo from './Logo.png'
 
-
 export { login, googleIcon, githubIcon, visitionIcon, sidebarBg, logo }

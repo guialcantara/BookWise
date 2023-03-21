@@ -5,38 +5,46 @@ import { GetServerSideProps } from 'next'
 import { ChartLineUp, Star, StarHalf } from 'phosphor-react'
 import { ReactElement } from 'react'
 import type { NextPageWithLayout } from '../_app.page'
-import { HomeContainer, PageTitle, PopularBooks, RecentReviewsList } from './styles'
+import {
+  HomeContainer,
+  PageTitle,
+  PopularBooks,
+  RecentReviewsList,
+} from './styles'
 
 interface HomeProps {
-  lastRates: Rating[],
+  lastRates: Rating[]
   popularBooks: PopularBook[]
 }
 
 interface Rating {
-  created_at: string,
-  id: string,
+  created_at: string
+  id: string
   rate: number
   user: {
-    image: string,
-    name: string,
-  },
+    image: string
+    name: string
+  }
   book: {
-    name: string,
-    author: string,
-    summary: string,
+    name: string
+    author: string
+    summary: string
     cover_url: string
   }
 }
 
 interface PopularBook {
-  id: string,
-  name: string,
-  author: string,
-  rate: number,
+  id: string
+  name: string
+  author: string
+  rate: number
   cover_url: string
 }
 
-const Home: NextPageWithLayout<HomeProps> = ({ lastRates, popularBooks }: HomeProps) => {
+const Home: NextPageWithLayout<HomeProps> = ({
+  lastRates,
+  popularBooks,
+}: HomeProps) => {
   console.log(popularBooks)
   return (
     <HomeContainer>
@@ -54,27 +62,26 @@ const Home: NextPageWithLayout<HomeProps> = ({ lastRates, popularBooks }: HomePr
         </RecentReviewsList>
       </div>
       <PopularBooks>
-        {
-          popularBooks.map((popularBook: PopularBook) => (
-            <li key={popularBook.id}>
-{popularBook.name}
-            </li>
-          ))
-        }
+        {popularBooks.map((popularBook: PopularBook) => (
+          <li key={popularBook.id}>{popularBook.name}</li>
+        ))}
       </PopularBooks>
     </HomeContainer>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async function ({ req, res }) {
+export const getServerSideProps: GetServerSideProps = async function ({
+  req,
+  res,
+}) {
   const lastRates = await prisma.rating.findMany({
     include: {
       book: true,
-      user: true
+      user: true,
     },
     orderBy: {
-      created_at: 'asc'
-    }
+      created_at: 'asc',
+    },
   })
   const popularBooks = await prisma.$queryRaw`
     SELECT B.name,B.author,B.cover_url, SUM(R.rate) as total_rate, R.id
@@ -89,18 +96,17 @@ export const getServerSideProps: GetServerSideProps = async function ({ req, res
   return {
     props: {
       lastRates: JSON.parse(JSON.stringify(lastRates)),
-      popularBooks: JSON.parse(JSON.stringify(popularBooks, (_, v) => typeof v === 'bigint' ? v.toString() : v)),
-
+      popularBooks: JSON.parse(
+        JSON.stringify(popularBooks, (_, v) =>
+          typeof v === 'bigint' ? v.toString() : v
+        )
+      ),
     },
   }
 }
 
 Home.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <Layout>
-      {page}
-    </Layout>
-  )
+  return <Layout>{page}</Layout>
 }
 
 export default Home

@@ -1,4 +1,4 @@
-import { styled } from "@/stitches.config";
+import { styled } from '@/stitches.config'
 
 export const LayoutContainer = styled('div', {
   display: 'flex',
@@ -9,6 +9,6 @@ export const LayoutContainer = styled('div', {
     paddingTop: '4.75rem',
     overflow: 'hidden',
     overflowY: 'auto',
-    display: 'flex'
-  }
+    display: 'flex',
+  },
 })
