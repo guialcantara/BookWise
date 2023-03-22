@@ -21,7 +21,7 @@ export function StarRating({
         <Star
           key={index}
           onClick={() => handleClick && handleClick(index)}
-          size={22}
+          size={16}
           weight={index < rate ? 'fill' : 'regular'}
         />
       ))}

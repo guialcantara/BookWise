@@ -4,7 +4,15 @@ export const HomeContainer = styled('div', {
   margin: '0 6rem',
   flex: 1,
   display: 'flex',
-  justifyContent: 'space-between',
+  gap: '4rem',
+  flexDirection: 'column',
+  alignItems: 'center',
+
+  '@lg': {
+    flexDirection: 'row',
+    alignItems: 'start',
+    gap: '8rem',
+  },
 })
 
 export const PageTitle = styled('div', {
@@ -16,11 +24,12 @@ export const PageTitle = styled('div', {
   },
 })
 
-export const RecentReviewsList = styled('div', {
+export const RecentRatesList = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '$3',
-  width: '600px',
+  paddingBottom: '$5',
+  marginTop: '3.6rem',
   '> p': {
     color: '$gray100',
     fontSize: '$sm',
@@ -29,4 +38,41 @@ export const RecentReviewsList = styled('div', {
 
 export const PopularBooks = styled('ul', {
   listStyle: 'none',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$4',
+  width: '100%',
+  '@lg': {
+    marginTop: '4.4rem',
+    maxWidth: '20.25rem',
+  },
+})
+
+export const ListHeader = styled('div', {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+
+  a: {
+    display: ' flex',
+    alignItems: 'center',
+    textDecoration: 'none',
+    color: '$purple100',
+    transition: 'all .2s',
+    padding: '$1',
+    '&:hover': {
+      background: '$gray700',
+      borderRadius: '$sm',
+    },
+  },
+})
+
+export const Card = styled('div', {
+  width: '100%',
+  display: 'flex',
+  gap: '$6',
+  marginTop: '$4',
+  background: '$gray700',
+  borderRadius: '$md',
+  padding: '$5',
 })

@@ -3,13 +3,15 @@ import Image from 'next/image'
 import { Star, StarHalf } from 'phosphor-react'
 import { Avatar } from '../Avatar'
 import { StarRating } from '../StarRating'
+import { Content } from './Content'
 import { Card, CardContent, CardHeader, ProfileSection } from './styles'
 
-interface RatingCardProps {
+export interface RatingCardProps {
   rating: {
     id: string
     rate: number
     created_at: string
+    withDate?: boolean,
     user: {
       image: string
       name: string
@@ -37,19 +39,7 @@ export function RatingCard({ rating }: RatingCardProps) {
         <StarRating rating={rating.rate} />
       </CardHeader>
 
-      <CardContent>
-        <Image
-          src={`/${rating.book.cover_url}.png`}
-          width={110}
-          height={150}
-          alt="user image"
-        />
-        <div>
-          <p>{rating.book.name}</p>
-          <span>{rating.book.author}</span>
-          <p>{rating.book.summary}</p>
-        </div>
-      </CardContent>
+      <Content rating={rating}  />
     </Card>
   )
 }

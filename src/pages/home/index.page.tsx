@@ -1,20 +1,27 @@
 import { RatingCard } from '@/components/RatingCard'
+import { Content } from '@/components/RatingCard/Content'
+import { SimpleCard } from '@/components/SimpleCard'
 import Layout from '@/layouts'
 import { prisma } from '@/lib/prisma'
 import { GetServerSideProps } from 'next'
-import { ChartLineUp, Star, StarHalf } from 'phosphor-react'
+import { getSession } from 'next-auth/react'
+import Link from 'next/link'
+import { CaretRight, ChartLineUp } from 'phosphor-react'
 import { ReactElement } from 'react'
 import type { NextPageWithLayout } from '../_app.page'
 import {
+  Card,
   HomeContainer,
+  ListHeader,
   PageTitle,
   PopularBooks,
-  RecentReviewsList,
+  RecentRatesList
 } from './styles'
 
 interface HomeProps {
   lastRates: Rating[]
   popularBooks: PopularBook[]
+  lastReading: any
 }
 
 interface Rating {
@@ -37,15 +44,16 @@ interface PopularBook {
   id: string
   name: string
   author: string
-  rate: number
+  total_rate: number
+  rate_amount: number
   cover_url: string
 }
 
 const Home: NextPageWithLayout<HomeProps> = ({
   lastRates,
   popularBooks,
+  lastReading,
 }: HomeProps) => {
-  console.log(popularBooks)
   return (
     <HomeContainer>
       <div>
@@ -54,16 +62,39 @@ const Home: NextPageWithLayout<HomeProps> = ({
           <h2> Início </h2>
         </PageTitle>
 
-        <RecentReviewsList>
+        {lastReading && (
+          <div>
+            <ListHeader>
+              <p>Sua última leitura</p>
+              <Link href="/profile">
+                ver todos
+                <CaretRight size={16} />
+              </Link>
+            </ListHeader>
+
+            <Card>
+              <Content rating={{ ...lastReading, withDate: true }} />
+            </Card>
+          </div>
+        )}
+
+        <RecentRatesList>
           <p>Avaliações mais recentes</p>
           {lastRates.map((rating: Rating) => (
             <RatingCard rating={rating} key={rating.id} />
           ))}
-        </RecentReviewsList>
+        </RecentRatesList>
       </div>
       <PopularBooks>
+        <ListHeader>
+          <p>Livros Populares</p>
+          <Link href="/explore">
+            ver todos
+            <CaretRight size={16} />
+          </Link>
+        </ListHeader>
         {popularBooks.map((popularBook: PopularBook) => (
-          <li key={popularBook.id}>{popularBook.name}</li>
+          <SimpleCard key={popularBook.id} {...popularBook} />
         ))}
       </PopularBooks>
     </HomeContainer>
@@ -74,17 +105,20 @@ export const getServerSideProps: GetServerSideProps = async function ({
   req,
   res,
 }) {
+  const session = await getSession({ req })
+
   const lastRates = await prisma.rating.findMany({
     include: {
       book: true,
       user: true,
     },
     orderBy: {
-      created_at: 'asc',
+      created_at: 'desc',
     },
   })
+
   const popularBooks = await prisma.$queryRaw`
-    SELECT B.name,B.author,B.cover_url, SUM(R.rate) as total_rate, R.id
+    SELECT B.name,B.author,B.cover_url, SUM(R.rate) as total_rate, R.id, COUNT(R.id) as rate_amount
     FROM books B
 
     INNER JOIN ratings R ON B.id = R.book_id
@@ -92,13 +126,27 @@ export const getServerSideProps: GetServerSideProps = async function ({
     GROUP BY B.id
     ORDER BY SUM(R.rate) DESC
   `
+  const lastReading = await prisma.rating.findFirst({
+    include: {
+      book: true,
+    },
+    where: {
+      user: {
+        email: session?.user?.email,
+      },
+    },
+    orderBy: {
+      created_at: 'desc',
+    },
+  })
 
   return {
     props: {
       lastRates: JSON.parse(JSON.stringify(lastRates)),
+      lastReading: JSON.parse(JSON.stringify(lastReading)),
       popularBooks: JSON.parse(
         JSON.stringify(popularBooks, (_, v) =>
-          typeof v === 'bigint' ? v.toString() : v
+          typeof v === 'bigint' ? Number(v.toString()) : v
         )
       ),
     },

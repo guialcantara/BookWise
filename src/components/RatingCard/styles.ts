@@ -19,9 +19,8 @@ export const CardHeader = styled('header', {
 export const CardContent = styled('main', {
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
   gap: '$4',
-  div: {
+  '> div': {
     display: 'flex',
     flexDirection: 'column',
     gap: '$1',
@@ -31,6 +30,10 @@ export const CardContent = styled('main', {
     fontSize: '$sm',
     color: '$gray400',
     marginBottom: '$6',
+  },
+  section: {
+    display: 'flex',
+    justifyContent: 'space-between'
   },
 })
 
@@ -44,4 +47,13 @@ export const ProfileSection = styled('div', {
   p: {
     color: '$gray100',
   },
+})
+
+export const SeeMoreButton = styled('button', {
+  all: 'unset',
+  color: '$purple100',
+
+  '&:hover':{
+    cursor: 'pointer',
+  }
 })
