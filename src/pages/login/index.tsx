@@ -10,7 +10,7 @@ import { login, githubIcon, googleIcon, visitionIcon } from '../../assets'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 export default function Login() {
-  const session = useSession()
+  const { status } = useSession()
   const router = useRouter()
 
   async function handleSignInGithub() {
@@ -20,8 +20,13 @@ export default function Login() {
     await signIn('google')
   }
 
-  if (session.status === 'authenticated') {
+  if (status === 'loading') {
+    return <div>loading...</div>
+  }
+  
+  if (status === 'authenticated') {
     router.push('/home')
+    return <div>loading...</div>
   }
   return (
     <LoginContainer>

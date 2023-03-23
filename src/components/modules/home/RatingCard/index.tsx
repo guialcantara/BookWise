@@ -1,8 +1,8 @@
 import dayjs from 'dayjs'
 import Image from 'next/image'
 import { Star, StarHalf } from 'phosphor-react'
-import { Avatar } from '../Avatar'
-import { StarRating } from '../StarRating'
+import { Avatar } from '../../../commons/Avatar'
+import { StarRating } from '../../../commons/StarRating'
 import { Content } from './Content'
 import { Card, CardContent, CardHeader, ProfileSection } from './styles'
 

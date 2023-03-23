@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import Image from 'next/image'
 import { useState } from 'react'
 import { RatingCardProps } from '.'
-import { StarRating } from '../StarRating'
+import { StarRating } from '../../../commons/StarRating'
 import { CardContent, SeeMoreButton } from './styles'
 
 export function Content({ rating }: RatingCardProps) {

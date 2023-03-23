@@ -1,12 +1,12 @@
-import { Navbar } from '@/components/Navbar'
+import { Navbar } from '@/components/commons/Navbar'
 import { ReactElement } from 'react'
-import { LayoutContainer } from './styles'
+import { LayoutContainer, PageFrame } from './styles'
 
 export default function Layout({ children }: { children: ReactElement }) {
   return (
     <LayoutContainer>
       <Navbar />
-      <main>{children}</main>
+      <PageFrame>{children}</PageFrame>
     </LayoutContainer>
   )
 }

@@ -1,13 +1,11 @@
 import { styled } from '@/stitches.config'
 
 export const HomeContainer = styled('div', {
-  margin: '0 6rem',
   flex: 1,
   display: 'flex',
   gap: '4rem',
   flexDirection: 'column',
   alignItems: 'center',
-
   '@lg': {
     flexDirection: 'row',
     alignItems: 'start',
@@ -15,14 +13,6 @@ export const HomeContainer = styled('div', {
   },
 })
 
-export const PageTitle = styled('div', {
-  display: 'flex',
-  gap: '$4',
-  marginBottom: '$10',
-  svg: {
-    color: '$green100',
-  },
-})
 
 export const RecentRatesList = styled('div', {
   display: 'flex',

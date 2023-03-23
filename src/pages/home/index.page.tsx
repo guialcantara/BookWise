@@ -1,6 +1,7 @@
-import { RatingCard } from '@/components/RatingCard'
-import { Content } from '@/components/RatingCard/Content'
-import { SimpleCard } from '@/components/SimpleCard'
+import { PageTitle } from '@/components/commons/PageTitle'
+import { RatingCard } from '@/components/modules/home/RatingCard'
+import { Content } from '@/components/modules/home/RatingCard/Content'
+import { SimpleCard } from '@/components/commons/SimpleCard'
 import Layout from '@/layouts'
 import { prisma } from '@/lib/prisma'
 import { GetServerSideProps } from 'next'
@@ -13,9 +14,8 @@ import {
   Card,
   HomeContainer,
   ListHeader,
-  PageTitle,
   PopularBooks,
-  RecentRatesList
+  RecentRatesList,
 } from './styles'
 
 interface HomeProps {
@@ -54,6 +54,7 @@ const Home: NextPageWithLayout<HomeProps> = ({
   popularBooks,
   lastReading,
 }: HomeProps) => {
+  console.log(lastReading)
   return (
     <HomeContainer>
       <div>
@@ -118,12 +119,12 @@ export const getServerSideProps: GetServerSideProps = async function ({
   })
 
   const popularBooks = await prisma.$queryRaw`
-    SELECT B.name,B.author,B.cover_url, SUM(R.rate) as total_rate, R.id, COUNT(R.id) as rate_amount
+    SELECT B.name,B.author,B.cover_url, (SUM(R.rate)/COUNT(R.id)) as total_rate, R.id
     FROM books B
 
-    INNER JOIN ratings R ON B.id = R.book_id
+    LEFT JOIN ratings R ON B.id = R.book_id
 
-    GROUP BY B.id
+    GROUP BY B.id, R.id
     ORDER BY SUM(R.rate) DESC
   `
   const lastReading = await prisma.rating.findFirst({

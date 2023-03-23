@@ -4,11 +4,11 @@ export const LayoutContainer = styled('div', {
   display: 'flex',
   width: '100vw',
   height: '100vh',
-  '> main': {
-    width: '100%',
-    paddingTop: '4.75rem',
-    overflow: 'hidden',
-    overflowY: 'auto',
-    display: 'flex',
-  },
+})
+export const PageFrame = styled('main',{
+  width: '100%',
+  padding: '4.75rem 4.75rem 0 4.75rem',
+  overflow: 'hidden',
+  overflowY: 'auto',
+  display: 'flex',
 })
