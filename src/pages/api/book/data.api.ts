@@ -22,7 +22,8 @@ export default async function handler(
   B.author, 
   B.cover_url, 
   (SUM(R.rate)/COUNT(R.id)) as total_rate, 
-  COUNT(R.id) rate_amount
+  COUNT(R.id) rate_amount,
+  STRING_AGG(C.name, ',') as book_categories
   FROM books B
 
   INNER JOIN categories_books COB ON B.id = COB.book_id
@@ -42,6 +43,9 @@ export default async function handler(
 
   const ratings = await prisma.rating.findMany({
     select: {
+      description: true,
+      rate: true,
+      created_at: true,
       user: {
         select: {
           email: true,
@@ -49,8 +53,6 @@ export default async function handler(
           name: true,
         },
       },
-      description: true,
-      rate: true,
     },
 
     where: {

@@ -1,4 +1,4 @@
-import { Navbar } from '@/components/commons/Navbar'
+import { Navbar } from '@/components/Navbar'
 import { ReactElement } from 'react'
 import { LayoutContainer, PageFrame } from './styles'
 

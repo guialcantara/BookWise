@@ -8,7 +8,7 @@ import {
 import { login, githubIcon, googleIcon, visitionIcon } from '../../assets'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { LoginButton } from '@/components/commons/LoginButton'
+import { LoginButton } from '@/components/LoginButton'
 export default function Login() {
   const { status } = useSession()
   const router = useRouter()

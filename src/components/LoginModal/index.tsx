@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 import { LoginButton } from '../LoginButton'
 import { Close, Content, Description, Overlay } from './styles'
 
-import { githubIcon, googleIcon } from '../../../assets'
+import { githubIcon, googleIcon } from '../../assets'
 import { signIn } from 'next-auth/react'
 export function LoginModal({ children }: { children: ReactNode }) {
   async function handleSignInGithub() {

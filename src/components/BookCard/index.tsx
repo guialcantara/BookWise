@@ -1,8 +1,8 @@
 import dayjs from 'dayjs'
 import Image from 'next/image'
 import { Star, StarHalf } from 'phosphor-react'
-import { Avatar } from '../../../commons/Avatar'
-import { StarRating } from '../../../commons/StarRating'
+import { Avatar } from '../Avatar'
+import { StarRating } from '../StarRating'
 import { Content } from './Content'
 import { Card, CardContent, CardHeader, ProfileSection } from './styles'
 
@@ -25,7 +25,7 @@ export interface RatingCardProps {
   }
 }
 
-export function RatingCard({ rating }: RatingCardProps) {
+export function BookCard({ rating }: RatingCardProps) {
   return (
     <Card>
       <CardHeader>

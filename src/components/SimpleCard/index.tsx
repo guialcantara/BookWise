@@ -34,7 +34,7 @@ export function SimpleCard({
   read,
   withHover,
   handleClick,
-  rate_amount,
+  rate_amount = 0,
 }: SimpleCardProps) {
   return (
     <SimpleCardContainer withHover={withHover} onClick={handleClick}>
@@ -52,7 +52,7 @@ export function SimpleCard({
         </BookInformations>
         <div>
           <StarRating rating={total_rate} />
-          {rate_amount && <RatingAmount>{rate_amount} Avaliações</RatingAmount>}
+          <RatingAmount>{rate_amount} Avaliações</RatingAmount>
         </div>
       </CardInformations>
     </SimpleCardContainer>

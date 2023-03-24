@@ -1,7 +1,7 @@
-import { PageTitle } from '@/components/commons/PageTitle'
-import { RatingCard } from '@/components/modules/home/RatingCard'
-import { Content } from '@/components/modules/home/RatingCard/Content'
-import { SimpleCard } from '@/components/commons/SimpleCard'
+import { PageTitle } from '@/components/PageTitle'
+import { BookCard } from '@/components/BookCard'
+import { Content } from '@/components/BookCard/Content'
+import { SimpleCard } from '@/components/SimpleCard'
 import Layout from '@/layouts'
 import { prisma } from '@/lib/prisma'
 import { GetServerSideProps } from 'next'
@@ -54,7 +54,6 @@ const Home: NextPageWithLayout<HomeProps> = ({
   popularBooks,
   lastReading,
 }: HomeProps) => {
-
   return (
     <HomeContainer>
       <div>
@@ -82,7 +81,7 @@ const Home: NextPageWithLayout<HomeProps> = ({
         <RecentRatesList>
           <p>Avaliações mais recentes</p>
           {lastRates.map((rating: Rating) => (
-            <RatingCard rating={rating} key={rating.id} />
+            <BookCard rating={rating} key={rating.id} />
           ))}
         </RecentRatesList>
       </div>
@@ -116,24 +115,33 @@ export const getServerSideProps: GetServerSideProps = async function ({
     orderBy: {
       created_at: 'desc',
     },
+    take: 3,
   })
 
   const popularBooks = await prisma.$queryRaw`
-    SELECT B.name,B.author,B.cover_url, (SUM(R.rate)/COUNT(R.id)) as total_rate, R.id
+    SELECT B.name,B.id,B.author,B.cover_url, (SUM(R.rate)/COUNT(R.id)) as total_rate, COUNT(R.id) as rate_amount
     FROM books B
 
-    LEFT JOIN ratings R ON B.id = R.book_id
+    INNER JOIN ratings R ON B.id = R.book_id
 
-    GROUP BY B.id, R.id
+    GROUP BY B.id
     ORDER BY SUM(R.rate) DESC
   `
+
+  //Fixme: Não está trazendo o ultimo livro avaliado pelo usuario
   const lastReading = await prisma.rating.findFirst({
     include: {
       book: true,
-    },
-    where: {
       user: {
-        email: session?.user?.email,
+        include: {
+          ratings: {
+            where: {
+              user: {
+                email: session?.user?.email,
+              },
+            },
+          },
+        },
       },
     },
     orderBy: {

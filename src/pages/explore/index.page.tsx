@@ -1,5 +1,5 @@
-import { Categories } from '@/components/modules/explore/Categories'
-import { PageTitle } from '@/components/commons/PageTitle'
+import { Categories } from '@/components/Categories'
+import { PageTitle } from '@/components/PageTitle'
 import Layout from '@/layouts'
 import { api } from '@/lib/axios'
 import { prisma } from '@/lib/prisma'
@@ -13,10 +13,10 @@ import {
   ExploreHeader,
   InputContainer,
 } from './styles'
-import { SimpleCard } from '@/components/commons/SimpleCard'
+import { SimpleCard } from '@/components/SimpleCard'
 import { getBooks } from '@/utils/get_books'
 import { getSession } from 'next-auth/react'
-import { BookDetail } from '@/components/commons/BookDetail'
+import { BookDetail } from '@/components/BookDetail'
 
 interface Book {
   author: string
