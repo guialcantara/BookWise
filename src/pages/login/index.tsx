@@ -2,13 +2,13 @@ import Image from 'next/image'
 import {
   ButtonArea,
   ImageContainer,
-  LoginButton,
   LoginContainer,
   Title,
 } from './styles'
 import { login, githubIcon, googleIcon, visitionIcon } from '../../assets'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { LoginButton } from '@/components/commons/LoginButton'
 export default function Login() {
   const { status } = useSession()
   const router = useRouter()

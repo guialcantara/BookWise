@@ -54,7 +54,7 @@ const Home: NextPageWithLayout<HomeProps> = ({
   popularBooks,
   lastReading,
 }: HomeProps) => {
-  console.log(lastReading)
+
   return (
     <HomeContainer>
       <div>

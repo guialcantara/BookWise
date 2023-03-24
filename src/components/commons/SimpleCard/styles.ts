@@ -9,6 +9,18 @@ export const SimpleCardContainer = styled('li', {
   background: '$gray700',
   position: 'relative',
   overflow: 'hidden',
+  border: '2px solid transparent',
+  transition: 'all .3s',
+  variants: {
+    withHover: {
+      true: {
+        '&:hover': {
+          cursor: 'pointer',
+          border: '2px solid $gray600',
+        },
+      },
+    },
+  },
 })
 
 export const CardInformations = styled('div', {
@@ -38,5 +50,10 @@ export const ReadFlag = styled('div', {
   fontWeight: '$bold',
   fontSize: '$xs',
   padding: '$1 $2',
-  borderRadius: '0 0 0 $sm'
+  borderRadius: '0 0 0 $sm',
+})
+
+export const RatingAmount = styled('span', {
+  color: '$gray400',
+  fontSize: '$sm',
 })

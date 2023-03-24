@@ -13,6 +13,7 @@ import { ReactElement } from 'react'
 import { Binoculars, ChartLineUp, SignIn, SignOut, User } from 'phosphor-react'
 import { signOut, useSession } from 'next-auth/react'
 import { Avatar } from '../Avatar'
+import { LoginModal } from '../LoginModal'
 
 interface ActiveLinkProps {
   href: string
@@ -70,10 +71,12 @@ export function Navbar() {
             <SignOut size={24} />
           </LogoutButton>
         ) : (
-          <LoginButton>
-            Fazer login
-            <SignIn size={24} />
-          </LoginButton>
+          <LoginModal>
+            <LoginButton>
+              Fazer login
+              <SignIn size={24} />
+            </LoginButton>
+          </LoginModal>
         )}
       </NavContent>
     </NavContainer>

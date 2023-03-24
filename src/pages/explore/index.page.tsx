@@ -16,30 +16,32 @@ import {
 import { SimpleCard } from '@/components/commons/SimpleCard'
 import { getBooks } from '@/utils/get_books'
 import { getSession } from 'next-auth/react'
+import { BookDetail } from '@/components/commons/BookDetail'
 
+interface Book {
+  author: string
+  cover_url: string
+  id: string
+  name: string
+  total_rate: number
+}
 interface ExploreProps {
   categories: {
     id: string
     name: string
   }[]
-  books: {
-    author: string
-    cover_url: string
-    id: string
-    name: string
-    total_rate: number
-  }[]
+  books: Book[]
 }
 
 const Explore = ({ categories, books }: ExploreProps) => {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [bookList, setBookList] = useState(books)
   const [searchField, setSearchField] = useState('')
-  console.log(bookList)
+  const [bookId, setBookId] = useState('')
+
   async function handleChangeCategory(category: string) {
     const bookList = await api.get(`book/${category}`)
     setBookList(bookList.data.books || [])
-
     setSelectedCategory(category)
   }
 
@@ -74,11 +76,23 @@ const Explore = ({ categories, books }: ExploreProps) => {
           categories={categories}
         />
         <BookList>
-          {filtedList.map((book) => (
-            <SimpleCard inList key={book.id} {...book} />
+          {filtedList.map((book: Book) => (
+            <SimpleCard
+              handleClick={() => {
+                setBookId(book.id)
+              }}
+              imageHeight={152}
+              imageWidth={108}
+              withHover
+              key={book.id}
+              {...book}
+            />
           ))}
         </BookList>
       </ExploreContent>
+      {bookId && (
+        <BookDetail bookId={bookId} closeFunction={() => setBookId('')} />
+      )}
     </ExploreContainer>
   )
 }
@@ -87,7 +101,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   req,
   res,
 }) {
-  const session = getSession({ req })
+  const session = await getSession({ req })
   const categories = await prisma.category.findMany()
   categories.unshift({ id: 'all', name: 'Tudo' })
   const books = await getBooks(session)

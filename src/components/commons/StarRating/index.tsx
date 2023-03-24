@@ -14,7 +14,6 @@ export function StarRating({
   handleClick,
 }: StarRatingProps) {
   const [stars] = useState(Array.from({ length: starsAmount }))
-  const [rate] = useState(rating)
   return (
     <StarContainer>
       {stars.map((_, index) => (
@@ -22,7 +21,7 @@ export function StarRating({
           key={index}
           onClick={() => handleClick && handleClick(index)}
           size={16}
-          weight={index < rate ? 'fill' : 'regular'}
+          weight={index < rating ? 'fill' : 'regular'}
         />
       ))}
     </StarContainer>

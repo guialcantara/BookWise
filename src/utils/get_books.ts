@@ -31,29 +31,25 @@ export async function getBooks(session: any, categoryId?: string) {
     )
   )
 
-  const booksRead = await prisma.rating.findMany({
-    include: {
-      book: true,
-      user: {
-        include: {
-          ratings: {
-            where: {
-              user: {
-                email: session?.user?.email,
-              },
+  if (session?.user?.email) {
+    const booksRead = await prisma.book.findMany({
+      where: {
+        ratings: {
+          some: {
+            user: {
+              email: session?.user?.email,
             },
           },
         },
       },
-    },
-  })
+    })
 
-  const result = books.map((book: any) => {
-    if (booksRead.find((b) => b.book.id === book.id)) {
-      return { ...book, read: true }
-    }
-    return book
-  })
-
-  return result
+    return books.map((book: any) => {
+      if (booksRead.find((b) => b.id === book.id)) {
+        return { ...book, read: true }
+      }
+      return book
+    })
+  }
+  return books
 }

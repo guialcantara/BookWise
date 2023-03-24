@@ -1,8 +1,11 @@
+import { spawn } from 'child_process'
 import Image from 'next/image'
+import { HTMLAttributes } from 'react'
 import { StarRating } from '../StarRating'
 import {
   BookInformations,
   CardInformations,
+  RatingAmount,
   ReadFlag,
   SimpleCardContainer,
 } from './styles'
@@ -13,8 +16,12 @@ interface SimpleCardProps {
   author: string
   total_rate: number
   cover_url: string
-  inList?: boolean
+  imageWidth?: number
+  imageHeight?: number
   read?: boolean
+  withHover?: boolean
+  handleClick?: () => void
+  rate_amount?: number
 }
 
 export function SimpleCard({
@@ -22,16 +29,20 @@ export function SimpleCard({
   total_rate,
   name,
   author,
-  inList,
+  imageHeight = 94,
+  imageWidth = 64,
   read,
+  withHover,
+  handleClick,
+  rate_amount,
 }: SimpleCardProps) {
   return (
-    <SimpleCardContainer>
-      {read&& <ReadFlag>LIDO</ReadFlag>}
+    <SimpleCardContainer withHover={withHover} onClick={handleClick}>
+      {read && <ReadFlag>LIDO</ReadFlag>}
       <Image
         src={`/${cover_url}.png`}
-        width={inList ? 108 : 64}
-        height={inList ? 152 : 94}
+        width={imageWidth}
+        height={imageHeight}
         alt="user image"
       />
       <CardInformations>
@@ -39,7 +50,10 @@ export function SimpleCard({
           <p>{name}</p>
           <span>{author}</span>
         </BookInformations>
-        <StarRating rating={total_rate} />
+        <div>
+          <StarRating rating={total_rate} />
+          {rate_amount && <RatingAmount>{rate_amount} Avaliações</RatingAmount>}
+        </div>
       </CardInformations>
     </SimpleCardContainer>
   )
