@@ -23,7 +23,7 @@ export function InputStarRating({ handleChange }: StarRatingProps) {
         <Star
           key={index}
           onMouseEnter={() => editing && setRate(index + 1)}
-          onClick={() => handleClick(index)}
+          onClick={() => handleClick(index + 1)}
           size={22}
           weight={index < rate ? 'fill' : 'regular'}
         />

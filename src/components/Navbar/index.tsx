@@ -36,7 +36,6 @@ function ActiveLink({ icon, title, href }: ActiveLinkProps) {
 
 export function Navbar() {
   const session = useSession()
-
   const authenticated = session.status === 'authenticated'
   return (
     <NavContainer>
@@ -56,7 +55,7 @@ export function Navbar() {
           />
           {authenticated && (
             <ActiveLink
-              href="/profile"
+              href={`/profile/${session.data.user?.id}`}
               icon={<User size={24} />}
               title="Perfil"
             />

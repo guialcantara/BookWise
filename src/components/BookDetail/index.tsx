@@ -1,35 +1,30 @@
 import { api } from '@/lib/axios'
 import { useSession } from 'next-auth/react'
-import { Check, X } from 'phosphor-react'
+import { X } from 'phosphor-react'
 import { useCallback, useEffect, useState } from 'react'
-import { Avatar } from '../Avatar'
+import { Card } from '../Card'
 import { CreateRatingCard } from '../CreateRatingCard'
-import { InputStarRating } from '../InputStarRating'
-import { SimpleCard } from '../SimpleCard'
-import { StarRating } from '../StarRating'
 import { RatingCard } from './RatingCard'
 import {
   BookDetailContent,
   BookDetailOverlay,
-  RatingButton,
-  RatingContainer,
-  RatingHeader,
   RatingList,
   RatingListContent,
   RatingListHeader,
-  RatingTextareaContainer,
-  UserInformation,
 } from './styles'
 
 interface BookDetailProps {
   bookId: string
   closeFunction: () => void
+  updateList?: () => void
 }
 
 interface Book {
   name: string
   id: string
   author: string
+  summary: string
+  bookCategories: string
   cover_url: string
   total_rate: number
   rate_amount: number
@@ -46,32 +41,49 @@ interface Rating {
   }
 }
 
-export const BookDetail = ({ bookId, closeFunction }: BookDetailProps) => {
+export const BookDetail = ({
+  bookId,
+  closeFunction,
+  updateList,
+}: BookDetailProps) => {
   const [bookInformation, setBookInformation] = useState<Book>({} as Book)
   const [ratings, setRatings] = useState<Rating[]>([])
   const [showRatingForm, setShowRatingForm] = useState(false)
   const { status } = useSession()
-  const getBookData = useCallback(async () => {
-    const result = await api.get('/book/data', {
-      params: {
-        bookId,
-      },
-    })
-    const { information, ratings } = result.data
+  const getBookData = useCallback(
+    async (update: boolean) => {
+      const result = await api.get('/book/data', {
+        params: {
+          bookId,
+        },
+      })
+      const { information, ratings } = result.data
 
-    setRatings(ratings)
-    setBookInformation(information[0])
-  }, [bookId])
+      setRatings(ratings)
+      setBookInformation(information)
+      if (update && updateList) updateList()
+    },
+    [bookId, updateList]
+  )
 
   useEffect(() => {
-    getBookData()
+    getBookData(false)
   }, [bookId, getBookData])
 
   return (
     <BookDetailOverlay>
       <BookDetailContent>
         <X weight="fill" size={24} onClick={closeFunction} />
-        <SimpleCard imageHeight={242} imageWidth={172} {...bookInformation} />
+        <Card.Root
+          book={{ ...bookInformation }}
+          rating={{
+            total_rate: bookInformation.total_rate,
+            rate_amount: bookInformation.rate_amount,
+          }}
+        >
+          <Card.SimpleContent imageWidth={172} imageHeight={242} />
+          <Card.Footer />
+        </Card.Root>
         <RatingList>
           <RatingListHeader>
             <p>Avaliações</p>
@@ -85,7 +97,7 @@ export const BookDetail = ({ bookId, closeFunction }: BookDetailProps) => {
               <CreateRatingCard
                 bookId={bookInformation.id}
                 closeFunction={() => setShowRatingForm(false)}
-                updateList={getBookData}
+                updateList={() => getBookData(true)}
               />
             )}
             {ratings.map((rating, i) => (

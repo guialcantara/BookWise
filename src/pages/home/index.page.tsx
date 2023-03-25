@@ -1,7 +1,5 @@
+import { Card } from '@/components/Card'
 import { PageTitle } from '@/components/PageTitle'
-import { BookCard } from '@/components/BookCard'
-import { Content } from '@/components/BookCard/Content'
-import { SimpleCard } from '@/components/SimpleCard'
 import Layout from '@/layouts'
 import { prisma } from '@/lib/prisma'
 import { GetServerSideProps } from 'next'
@@ -11,11 +9,10 @@ import { CaretRight, ChartLineUp } from 'phosphor-react'
 import { ReactElement } from 'react'
 import type { NextPageWithLayout } from '../_app.page'
 import {
-  Card,
   HomeContainer,
   ListHeader,
   PopularBooks,
-  RecentRatesList,
+  RecentRatesList
 } from './styles'
 
 interface HomeProps {
@@ -72,16 +69,31 @@ const Home: NextPageWithLayout<HomeProps> = ({
               </Link>
             </ListHeader>
 
-            <Card>
-              <Content rating={{ ...lastReading, withDate: true }} />
-            </Card>
+            <Card.Root
+              book={lastReading.book}
+              user={lastReading.user}
+              rating={{
+                rate: lastReading.rate,
+                created_at: lastReading.created_at,
+              }}
+            >
+              <Card.Content withRating />
+            </Card.Root>
           </div>
         )}
 
         <RecentRatesList>
           <p>Avaliações mais recentes</p>
           {lastRates.map((rating: Rating) => (
-            <BookCard rating={rating} key={rating.id} />
+            <Card.Root
+              book={rating.book}
+              user={rating.user}
+              rating={{ rate: rating.rate, created_at: rating.created_at }}
+              key={rating.id}
+            >
+              <Card.Header />
+              <Card.Content />
+            </Card.Root>
           ))}
         </RecentRatesList>
       </div>
@@ -94,7 +106,22 @@ const Home: NextPageWithLayout<HomeProps> = ({
           </Link>
         </ListHeader>
         {popularBooks.map((popularBook: PopularBook) => (
-          <SimpleCard key={popularBook.id} {...popularBook} />
+          <Card.Root
+            key={popularBook.id}
+            book={{
+              id: popularBook.id,
+              name: popularBook.name,
+              author: popularBook.author,
+              cover_url: popularBook.cover_url,
+              summary: '',
+            }}
+            rating={{
+              total_rate: popularBook.total_rate,
+              rate_amount: popularBook.rate_amount,
+            }}
+          >
+            <Card.SimpleContent imageWidth={64} imageHeight={94} />
+          </Card.Root>
         ))}
       </PopularBooks>
     </HomeContainer>

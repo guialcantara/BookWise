@@ -1,26 +1,9 @@
-import { styled } from '@/stitches.config'
+import { styled } from "@/stitches.config"
 
-export const SimpleCardContainer = styled('li', {
+export const SimpleContentContainer = styled('div', {
   width: '100%',
   display: 'flex',
   gap: '$4',
-  padding: '$4',
-  borderRadius: '$md',
-  background: '$gray700',
-  position: 'relative',
-  overflow: 'hidden',
-  border: '2px solid transparent',
-  transition: 'all .3s',
-  variants: {
-    withHover: {
-      true: {
-        '&:hover': {
-          cursor: 'pointer',
-          border: '2px solid $gray600',
-        },
-      },
-    },
-  },
 })
 
 export const CardInformations = styled('div', {

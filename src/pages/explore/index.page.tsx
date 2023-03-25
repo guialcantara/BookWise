@@ -1,9 +1,13 @@
+import { BookDetail } from '@/components/BookDetail'
+import { Card } from '@/components/Card'
 import { Categories } from '@/components/Categories'
 import { PageTitle } from '@/components/PageTitle'
 import Layout from '@/layouts'
 import { api } from '@/lib/axios'
 import { prisma } from '@/lib/prisma'
+import { getBooks } from '@/utils/get_books'
 import { GetServerSideProps } from 'next'
+import { getSession } from 'next-auth/react'
 import { Binoculars, MagnifyingGlass } from 'phosphor-react'
 import { ReactElement, useState } from 'react'
 import {
@@ -13,10 +17,6 @@ import {
   ExploreHeader,
   InputContainer,
 } from './styles'
-import { SimpleCard } from '@/components/SimpleCard'
-import { getBooks } from '@/utils/get_books'
-import { getSession } from 'next-auth/react'
-import { BookDetail } from '@/components/BookDetail'
 
 interface Book {
   author: string
@@ -24,6 +24,7 @@ interface Book {
   id: string
   name: string
   total_rate: number
+  read: boolean
 }
 interface ExploreProps {
   categories: {
@@ -39,7 +40,7 @@ const Explore = ({ categories, books }: ExploreProps) => {
   const [searchField, setSearchField] = useState('')
   const [bookId, setBookId] = useState('')
 
-  async function handleChangeCategory(category: string) {
+  async function fetchData(category: string) {
     const bookList = await api.get(`book/${category}`)
     setBookList(bookList.data.books || [])
     setSelectedCategory(category)
@@ -72,26 +73,37 @@ const Explore = ({ categories, books }: ExploreProps) => {
       <ExploreContent>
         <Categories
           activeCategoryId={selectedCategory}
-          handleSelectCategory={handleChangeCategory}
+          handleSelectCategory={fetchData}
           categories={categories}
         />
-        <BookList>
+        
+        <BookList >
+          
           {filtedList.map((book: Book) => (
-            <SimpleCard
-              handleClick={() => {
-                setBookId(book.id)
-              }}
-              imageHeight={152}
-              imageWidth={108}
+            <Card.Root
               withHover
               key={book.id}
-              {...book}
-            />
+              book={{ ...book, summary: '' }}
+              rating={{ total_rate: book.total_rate }}
+            >
+              <Card.SimpleContent
+                read={book.read}
+                handleClick={() => {
+                  setBookId(book.id)
+                }}
+                imageWidth={108}
+                imageHeight={152}
+              />
+            </Card.Root>
           ))}
         </BookList>
       </ExploreContent>
       {bookId && (
-        <BookDetail bookId={bookId} closeFunction={() => setBookId('')} />
+        <BookDetail
+          bookId={bookId}
+          updateList={() => fetchData(selectedCategory)}
+          closeFunction={() => setBookId('')}
+        />
       )}
     </ExploreContainer>
   )

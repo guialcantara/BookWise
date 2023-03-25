@@ -31,13 +31,13 @@ export async function getBooks(session: any, categoryId?: string) {
     )
   )
 
-  if (session?.user?.email) {
+  if (session?.user?.id) {
     const booksRead = await prisma.book.findMany({
       where: {
         ratings: {
           some: {
             user: {
-              email: session?.user?.email,
+              id: session?.user?.id,
             },
           },
         },

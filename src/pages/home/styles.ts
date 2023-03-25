@@ -56,13 +56,3 @@ export const ListHeader = styled('div', {
     },
   },
 })
-
-export const Card = styled('div', {
-  width: '100%',
-  display: 'flex',
-  gap: '$6',
-  marginTop: '$4',
-  background: '$gray700',
-  borderRadius: '$md',
-  padding: '$5',
-})

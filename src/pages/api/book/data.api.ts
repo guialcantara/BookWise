@@ -15,26 +15,36 @@ export default async function handler(
     return res.status(400).end()
   }
 
-  const book = await prisma.$queryRaw`
-  SELECT 
-  B.name,
-  B.id, 
-  B.author, 
-  B.cover_url, 
-  (SUM(R.rate)/COUNT(R.id)) as total_rate, 
-  COUNT(R.id) rate_amount,
-  STRING_AGG(C.name, ',') as book_categories
-  FROM books B
+  const book: any = await prisma.$queryRaw`
+    SELECT 
+    B.name,
+    B.id,
+    B.total_pages,
+    B.author, 
+    B.cover_url, 
+    (SUM(R.rate)/COUNT(R.id)) as total_rate, 
+    COUNT(R.id) rate_amount
+    FROM books B
 
-  INNER JOIN categories_books COB ON B.id = COB.book_id
-  INNER JOIN categories C ON COB.category_id = C.id
-  LEFT JOIN ratings R ON R.book_id = B.id
+    LEFT JOIN ratings R ON R.book_id = B.id
 
-  WHERE B.id = ${String(bookId)}
-
-  GROUP BY B.id
-  ORDER BY SUM(R.rate) DESC
+    WHERE B.id = ${String(bookId)}
+    GROUP BY B.id
+    ORDER BY SUM(R.rate) DESC
 `
+
+  const categories = await prisma.categoriesOnBooks.findMany({
+    include: {
+      category: true,
+    },
+    where: {
+      book_id: String(bookId),
+    },
+  })
+  const bookCategories = categories
+    .map((categoryObj) => categoryObj.category.name)
+    .join(', ')
+
   const bookInformation = JSON.parse(
     JSON.stringify(book, (_, v) =>
       typeof v === 'bigint' ? Number(v.toString()) : v
@@ -59,5 +69,7 @@ export default async function handler(
       book_id: String(bookId),
     },
   })
-  return res.status(200).json({ information: bookInformation, ratings })
+  return res
+    .status(200)
+    .json({ information: { ...bookInformation[0], bookCategories }, ratings })
 }
