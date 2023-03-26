@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { serializeFields } from './serialize'
 
 export async function getBooks(session: any, categoryId?: string) {
   const booksQuery = categoryId
@@ -25,11 +26,7 @@ export async function getBooks(session: any, categoryId?: string) {
         ORDER BY SUM(R.rate) DESC
       `
 
-  const books = JSON.parse(
-    JSON.stringify(booksQuery, (_, v) =>
-      typeof v === 'bigint' ? Number(v.toString()) : v
-    )
-  )
+  const books = serializeFields(booksQuery) 
 
   if (session?.user?.id) {
     const booksRead = await prisma.book.findMany({

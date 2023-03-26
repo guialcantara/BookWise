@@ -2,6 +2,7 @@ import { Card } from '@/components/Card'
 import { PageTitle } from '@/components/PageTitle'
 import Layout from '@/layouts'
 import { prisma } from '@/lib/prisma'
+import { serializeFields } from '@/utils/serialize'
 import { GetServerSideProps } from 'next'
 import { getSession } from 'next-auth/react'
 import Link from 'next/link'
@@ -12,7 +13,7 @@ import {
   HomeContainer,
   ListHeader,
   PopularBooks,
-  RecentRatesList
+  RecentRatesList,
 } from './styles'
 
 interface HomeProps {
@@ -178,13 +179,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   return {
     props: {
-      lastRates: JSON.parse(JSON.stringify(lastRates)),
-      lastReading: JSON.parse(JSON.stringify(lastReading)),
-      popularBooks: JSON.parse(
-        JSON.stringify(popularBooks, (_, v) =>
-          typeof v === 'bigint' ? Number(v.toString()) : v
-        )
-      ),
+      lastRates: serializeFields(lastRates),
+      lastReading: serializeFields(lastReading),
+      popularBooks: serializeFields(popularBooks),
     },
   }
 }

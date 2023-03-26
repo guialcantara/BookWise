@@ -55,3 +55,18 @@ export const ProfileContent = styled('div', {
 })
 
 export const UserData = styled('div', {})
+
+export const InformationItem = styled('div', {display: 'flex',
+gap: '$4',
+span: {
+  color: '$gray300',
+  fontSize: '$sm',
+},
+p: {
+  color: '$gray200',
+  fontSize: '$md',
+  fontWeight: '$bold',
+},
+svg: {
+  color: '$green100',
+},})

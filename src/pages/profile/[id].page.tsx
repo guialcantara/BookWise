@@ -8,10 +8,18 @@ import dayjs from 'dayjs'
 import { GetServerSideProps } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { MagnifyingGlass, User } from 'phosphor-react'
+import {
+  BookmarkSimple,
+  BookOpen,
+  Books,
+  MagnifyingGlass,
+  User,
+  UserList,
+} from 'phosphor-react'
 import { ReactElement, useState, useEffect } from 'react'
 import {
   Date,
+  InformationItem,
   InputContainer,
   ProfileContainer,
   ProfileContent,
@@ -42,6 +50,10 @@ interface UserData {
   name: string
   created_at: string
   image: string
+  readPages: string
+  ratedBooks: string
+  totalAuthors: string
+  favoriteCategory: string
 }
 
 const Profile = () => {
@@ -54,8 +66,11 @@ const Profile = () => {
   useEffect(() => {
     async function getDate() {
       const result = await api.get(`rating/${id}`)
+      console.log(result)
+      setUserData(result.data.userData)
+      setRatingsList(result.data.ratings)
     }
-    getDate()
+    if (id) getDate()
   }, [id])
 
   const filtedRatingList = ratingsList.filter((rating) =>
@@ -97,11 +112,44 @@ const Profile = () => {
           ))}
         </RatingList>
         <UserData>
-          <Avatar src={data?.user?.image || ''} />
-          <h3>{data?.user?.name}</h3>
-          <Date>
-            Membro desde {dayjs(data?.user?.created_at).format('YYYY')}
-          </Date>
+          <div>
+            <Avatar src={userData?.image || ''} />
+            <h3>{userData?.name}</h3>
+            <Date>
+              Membro desde {dayjs(userData?.created_at).format('YYYY')}
+            </Date>
+          </div>
+          <div></div>
+          <div>
+            <InformationItem>
+              <BookOpen size={24} />
+              <div>
+                <p>{userData?.readPages}</p>
+                <span>Páginas lidas</span>
+              </div>
+            </InformationItem>
+            <InformationItem>
+              <Books size={24} />
+              <div>
+                <p>{userData?.ratedBooks}</p>
+                <span>Livros avaliados</span>
+              </div>
+            </InformationItem>
+            <InformationItem>
+              <UserList size={24} />
+              <div>
+                <p>{userData?.totalAuthors}</p>
+                <span>Autores lidos</span>
+              </div>
+            </InformationItem>
+            <InformationItem>
+              <BookmarkSimple size={24} />
+              <div>
+                <p>{userData?.favoriteCategory}</p>
+                <span>Categoria mais lida</span>
+              </div>
+            </InformationItem>
+          </div>
         </UserData>
       </ProfileContent>
     </ProfileContainer>

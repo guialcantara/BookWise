@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { prisma } from '@/lib/prisma'
+import { serializeFields } from '@/utils/serialize'
 import type { NextApiRequest, NextApiResponse } from 'next'
 export default async function handler(
   req: NextApiRequest,
@@ -45,11 +46,7 @@ export default async function handler(
     .map((categoryObj) => categoryObj.category.name)
     .join(', ')
 
-  const bookInformation = JSON.parse(
-    JSON.stringify(book, (_, v) =>
-      typeof v === 'bigint' ? Number(v.toString()) : v
-    )
-  )
+  const bookInformation = serializeFields(book)
 
   const ratings = await prisma.rating.findMany({
     select: {
@@ -64,9 +61,11 @@ export default async function handler(
         },
       },
     },
-
     where: {
       book_id: String(bookId),
+    },
+    orderBy: {
+      created_at: 'desc',
     },
   })
   return res
