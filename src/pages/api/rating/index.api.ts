@@ -9,15 +9,21 @@ export default async function handler(
     return res.status(405).end()
   }
 
-  const { bookId, email, description, rate } = req.body
+  const { bookId, id, description, rate } = req.body
 
   const user = await prisma.user.findUnique({
     where: {
-      email,
+      id,
     },
   })
 
-  if (user) {
+  const alreadyExistRating = await prisma.rating.findFirst({
+    where: {
+      book_id: bookId,
+      user_id: id,
+    },
+  })
+  if (user && !alreadyExistRating) {
     const rating = await prisma.rating.create({
       data: {
         book_id: bookId,
@@ -29,6 +35,8 @@ export default async function handler(
     if (rating) {
       return res.status(201).json({ rating })
     }
+  }else{
+    res.status(400).json({message: "Você ja avaliou esse Livro!"})
   }
 
   return res.status(500)

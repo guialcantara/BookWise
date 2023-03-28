@@ -47,12 +47,15 @@ export default async function handler(
     LIMIT 1
   `
   const serializedReadPages = serializeFields(userReadPages)[0]
-  
+
   const userData = {
-    readPages: serializedReadPages.read_pages,
+    readPages: serializedReadPages.read_pages || 0,
     ratedBooks: serializedReadPages.rated_books,
     totalAuthors: serializedReadPages.total_authors,
-    favoriteCategory: serializeFields(userFavoriteCategory)[0].name,
+    favoriteCategory:
+      serializeFields(userFavoriteCategory).lenght > 0
+        ? serializeFields(userFavoriteCategory)[0].name
+        : '',
     name: user.name,
     image: user.image,
     created_at: user.created_at,

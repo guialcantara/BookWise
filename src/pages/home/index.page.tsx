@@ -1,10 +1,11 @@
 import { Card } from '@/components/Card'
+import { EmptyCard } from '@/components/EmptyCard'
 import { PageTitle } from '@/components/PageTitle'
 import Layout from '@/layouts'
 import { prisma } from '@/lib/prisma'
 import { serializeFields } from '@/utils/serialize'
 import { GetServerSideProps } from 'next'
-import { getSession } from 'next-auth/react'
+import { getSession, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { CaretRight, ChartLineUp } from 'phosphor-react'
 import { ReactElement } from 'react'
@@ -52,6 +53,7 @@ const Home: NextPageWithLayout<HomeProps> = ({
   popularBooks,
   lastReading,
 }: HomeProps) => {
+  const { data } = useSession()
   return (
     <HomeContainer>
       <div>
@@ -64,7 +66,7 @@ const Home: NextPageWithLayout<HomeProps> = ({
           <div>
             <ListHeader>
               <p>Sua última leitura</p>
-              <Link href="/profile">
+              <Link href={`profile/${data?.user.id}`}>
                 ver todos
                 <CaretRight size={16} />
               </Link>
@@ -85,6 +87,7 @@ const Home: NextPageWithLayout<HomeProps> = ({
 
         <RecentRatesList>
           <p>Avaliações mais recentes</p>
+          {lastRates.length === 0 && <EmptyCard />}
           {lastRates.map((rating: Rating) => (
             <Card.Root
               book={rating.book}
@@ -147,16 +150,19 @@ export const getServerSideProps: GetServerSideProps = async function ({
   })
 
   const popularBooks = await prisma.$queryRaw`
-    SELECT B.name,B.id,B.author,B.cover_url, (SUM(R.rate)/COUNT(R.id)) as total_rate, COUNT(R.id) as rate_amount
+    SELECT 
+      B.name,
+      B.id,
+      B.author,
+      B.cover_url,
+      (SUM(R.rate)/COUNT(R.id)) as total_rate, 
+      COUNT(R.id) as rate_amount
     FROM books B
-
-    INNER JOIN ratings R ON B.id = R.book_id
-
+    LEFT JOIN ratings R ON B.id = R.book_id
     GROUP BY B.id
-    ORDER BY SUM(R.rate) DESC
+    ORDER BY COALESCE(SUM(R.rate), 0) DESC
   `
 
-  //Fixme: Não está trazendo o ultimo livro avaliado pelo usuario
   const lastReading = await prisma.rating.findFirst({
     include: {
       book: true,
@@ -165,12 +171,15 @@ export const getServerSideProps: GetServerSideProps = async function ({
           ratings: {
             where: {
               user: {
-                email: session?.user?.email,
+                id: session?.user?.id,
               },
             },
           },
         },
       },
+    },
+    where: {
+    user_id:  session?.user?.id,
     },
     orderBy: {
       created_at: 'desc',
@@ -180,7 +189,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   return {
     props: {
       lastRates: serializeFields(lastRates),
-      lastReading: serializeFields(lastReading),
+      lastReading: session?.user ?serializeFields(lastReading):null,
       popularBooks: serializeFields(popularBooks),
     },
   }

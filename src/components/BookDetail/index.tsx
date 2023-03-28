@@ -81,7 +81,7 @@ export const BookDetail = ({
             rate_amount: bookInformation.rate_amount,
           }}
         >
-          <Card.SimpleContent imageWidth={172} imageHeight={242} />
+          <Card.SimpleContent showAmount imageWidth={172} imageHeight={242} />
           <Card.Footer />
         </Card.Root>
         <RatingList>

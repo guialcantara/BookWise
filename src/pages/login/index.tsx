@@ -1,14 +1,10 @@
 import Image from 'next/image'
-import {
-  ButtonArea,
-  ImageContainer,
-  LoginContainer,
-  Title,
-} from './styles'
+import { ButtonArea, ImageContainer, LoginContainer, Title } from './styles'
 import { login, githubIcon, googleIcon, visitionIcon } from '../../assets'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { LoginButton } from '@/components/LoginButton'
+import Link from 'next/link'
 export default function Login() {
   const { status } = useSession()
   const router = useRouter()
@@ -23,7 +19,7 @@ export default function Login() {
   if (status === 'loading') {
     return <div>loading...</div>
   }
-  
+
   if (status === 'authenticated') {
     router.push('/home')
     return <div>loading...</div>
@@ -46,10 +42,12 @@ export default function Login() {
           <Image src={githubIcon} alt="github logo" />
           Entrar com Github
         </LoginButton>
-        <LoginButton>
-          <Image src={visitionIcon} alt="icone de um foguete" />
-          Acessar como visitante
-        </LoginButton>
+        <Link href="/home">
+          <LoginButton>
+            <Image src={visitionIcon} alt="icone de um foguete" />
+            Acessar como visitante
+          </LoginButton>
+        </Link>
       </ButtonArea>
     </LoginContainer>
   )

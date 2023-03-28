@@ -5,6 +5,8 @@ import { SessionProvider } from 'next-auth/react'
 import { globalStyles } from '@/styles/global'
 import { NextPage } from 'next'
 import { ReactElement, ReactNode } from 'react'
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify'
 
 globalStyles()
 
@@ -30,6 +32,7 @@ export default function MyApp({
     <SessionProvider session={session}>
       <div className={`${nunito.variable}`}>
         {getLayout(<Component {...pageProps} />)}
+        <ToastContainer />
       </div>
     </SessionProvider>
   )

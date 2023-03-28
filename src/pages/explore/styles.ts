@@ -1,13 +1,21 @@
-import { styled } from '@stitches/react'
+import { styled } from "@/stitches.config"
 
-export const ExploreContainer = styled('main', {
+
+export const ExploreContainer = styled('section', {
   flex: 1,
+  width: '100%',
 })
 
 export const ExploreHeader = styled('header', {
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'space-between',
+  gap: '$5',
+  '@lg': {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
 })
 
 export const ExploreContent = styled('section', {})
@@ -21,6 +29,7 @@ export const InputContainer = styled('div', {
   padding: '$3 $5',
   flex: 1,
   maxWidth: '27rem',
+  width: '100%',
   '&:focus-within': {
     border: '1px solid $gray400',
   },
@@ -44,5 +53,5 @@ export const BookList = styled('ul', {
   gridGap: '20px',
   gridAutoRows: 'auto',
   gridTemplateColumns: 'repeat(auto-fill, minmax(318px, 1fr))',
-  marginTop: '3rem'
+  marginTop: '3rem',
 })

@@ -9,7 +9,11 @@ export const globalStyles = globalCss({
   body: {
     backgroundColor: '$gray800',
     color: '$gray100',
-    '-webkit-font-smoothing': 'antialiased',
     fontFamily: '$default',
+    '-webkit-font-smoothing': 'antialiased',
+    '&:-webkit-scrollbar-track': {
+      backgroundColor: 'red',
+    },
   },
+ 
 })

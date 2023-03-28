@@ -56,7 +56,7 @@ const Explore = ({ categories, books }: ExploreProps) => {
       <ExploreHeader>
         <PageTitle>
           <Binoculars size={32} />
-          <h2> Explorar </h2>
+          <h2>Explorar</h2>
         </PageTitle>
 
         <InputContainer>

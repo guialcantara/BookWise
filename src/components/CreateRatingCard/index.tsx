@@ -1,7 +1,9 @@
 import { api } from '@/lib/axios'
+import { AxiosError } from 'axios'
 import { useSession } from 'next-auth/react'
 import { Check, X } from 'phosphor-react'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 import { Avatar } from '../Avatar'
 import { InputStarRating } from '../InputStarRating'
 import {
@@ -21,22 +23,59 @@ interface CreateRatingCardProps {
 export function CreateRatingCard({
   bookId,
   closeFunction,
-  updateList
+  updateList,
 }: CreateRatingCardProps) {
-  const [newRating, setNewRating] = useState(1)
+  const [newRating, setNewRating] = useState<Number | null>(null)
   const [newDescription, setNewDescription] = useState('')
 
   const { data } = useSession()
+  function validateForm() {
+    if (!newRating) {
+      toast.error('Por favor selecione uma nota', {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 2000,
+      })
+      return false
+    }
+    if (!newDescription) {
+      toast.error('Por favor preencha a descrição', {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 2500,
+      })
+      return false
+    }
 
+    return true
+  }
   async function handleCreateRating() {
-    const result = await api.post('/rating', {
-      bookId,
-      email: data?.user?.email,
-      rate: newRating,
-      description: newDescription,
-    })
-    closeFunction()
-    updateList()
+    if (validateForm()) {
+      await api
+        .post('/rating', {
+          bookId,
+          id: data?.user?.id,
+          rate: newRating,
+          description: newDescription,
+        })
+        .then(() => {
+          toast.success('Livro avaliado com sucesso!', {
+            position: toast.POSITION.TOP_LEFT,
+            autoClose: 2000,
+          })
+          updateList()
+        })
+        .catch((err) => {
+          if (err instanceof AxiosError && err?.response?.data?.message) {
+            toast.error(`Opss... ${err.response.data.message}`, {
+              position: toast.POSITION.TOP_LEFT,
+              autoClose: 2000,
+            })
+            return
+          }
+        })
+        .finally(() => {
+          closeFunction()
+        })
+    }
   }
 
   return (

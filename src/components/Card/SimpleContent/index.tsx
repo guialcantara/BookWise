@@ -14,12 +14,14 @@ interface SimpleContentProps {
   imageHeight: number
   read?: boolean
   handleClick?: () => void
+  showAmount?: boolean
 }
 export const SimpleContent = ({
   imageWidth,
   imageHeight,
   read,
   handleClick,
+  showAmount = false,
 }: SimpleContentProps) => {
   const { rating, book } = useCard()
   return (
@@ -38,8 +40,8 @@ export const SimpleContent = ({
         </BookInformations>
         <div>
           <StarRating rating={rating?.total_rate} />
-          {rating?.rate_amount && (
-            <RatingAmount>{rating?.rate_amount} Avaliações</RatingAmount>
+          {showAmount && (
+            <RatingAmount>{rating?.rate_amount || 0} Avaliações</RatingAmount>
           )}
         </div>
       </CardInformations>

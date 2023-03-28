@@ -4,13 +4,17 @@ export const CategoriesContainer = styled('ul', {
   listStyle: 'none',
   display: 'flex',
   overflowX: 'auto',
+  width: '100%',
+  minWidth: '318px',
   gap: '$4',
-  marginTop: '3.375rem'
+  marginTop: '3.375rem',
+  paddingBottom: '$4',
 })
 export const Chip = styled('li', {
   padding: '$2 $4',
   borderRadius: '$lg',
   transition: 'all .2s',
+  whiteSpace: 'nowrap',
   '&:hover': {
     cursor: 'pointer',
     border: '1px solid $purple100',

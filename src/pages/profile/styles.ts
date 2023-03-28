@@ -16,7 +16,6 @@ export const InputContainer = styled('div', {
   borderRadius: '$sm',
   padding: '$3 $5',
   flex: 1,
-  maxWidth: '27rem',
   '&:focus-within': {
     border: '1px solid $gray400',
   },
@@ -40,7 +39,7 @@ export const RatingList = styled('ul', {
   gap: '$5',
   listStyle: 'none',
   flex: 1,
-  marginTop: '$8',
+  marginTop: '$5',
 })
 
 export const Date = styled('p', {
@@ -54,19 +53,49 @@ export const ProfileContent = styled('div', {
   gap: '$10',
 })
 
-export const UserData = styled('div', {})
+export const UserData = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  borderLeft: '1px solid $gray700',
+  height: 'min-content',
+  padding: '$4',
+  header: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    h3: {
+      marginTop: '$5',
+    },
+  },
+  section: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '$10',
+  },
+})
 
-export const InformationItem = styled('div', {display: 'flex',
-gap: '$4',
-span: {
-  color: '$gray300',
-  fontSize: '$sm',
-},
-p: {
-  color: '$gray200',
-  fontSize: '$md',
-  fontWeight: '$bold',
-},
-svg: {
-  color: '$green100',
-},})
+export const InformationItem = styled('div', {
+  display: 'flex',
+  gap: '$4',
+  span: {
+    color: '$gray300',
+    fontSize: '$sm',
+  },
+  p: {
+    color: '$gray200',
+    fontSize: '$md',
+    fontWeight: '$bold',
+  },
+  svg: {
+    color: '$green100',
+  },
+})
+
+export const Divider = styled('div', {
+  width: '2rem',
+  height: '0.25rem',
+  borderRadius: '$lg',
+  background: '$gradient-horizontal',
+  margin: '$10 0',
+})

@@ -19,6 +19,7 @@ import {
 import { ReactElement, useState, useEffect } from 'react'
 import {
   Date,
+  Divider,
   InformationItem,
   InputContainer,
   ProfileContainer,
@@ -79,24 +80,23 @@ const Profile = () => {
 
   return (
     <ProfileContainer>
-      <ProfileHeader>
-        <PageTitle>
-          <User size={32} />
-          <h2> Perfil </h2>
-        </PageTitle>
-
-        <InputContainer>
-          <input
-            onChange={(e) => setSearchField(e.target.value)}
-            value={searchField}
-            type="text"
-            placeholder="Buscar livro avaliado"
-          />
-          <MagnifyingGlass />
-        </InputContainer>
-      </ProfileHeader>
+      <PageTitle>
+        <User size={32} />
+        <h2> Perfil </h2>
+      </PageTitle>
       <ProfileContent>
         <RatingList>
+          <ProfileHeader>
+            <InputContainer>
+              <input
+                onChange={(e) => setSearchField(e.target.value)}
+                value={searchField}
+                type="text"
+                placeholder="Buscar livro avaliado"
+              />
+              <MagnifyingGlass />
+            </InputContainer>
+          </ProfileHeader>
           {filtedRatingList.map((rating) => (
             <div key={rating.id}>
               <Date>Há {dayjs(rating?.created_at).fromNow(true)}</Date>
@@ -112,44 +112,44 @@ const Profile = () => {
           ))}
         </RatingList>
         <UserData>
-          <div>
-            <Avatar src={userData?.image || ''} />
+          <header>
+            <Avatar size={72} src={userData?.image || ''} />
             <h3>{userData?.name}</h3>
             <Date>
               Membro desde {dayjs(userData?.created_at).format('YYYY')}
             </Date>
-          </div>
-          <div></div>
-          <div>
+          </header>
+          <Divider />
+          <section>
             <InformationItem>
-              <BookOpen size={24} />
+              <BookOpen size={32} />
               <div>
                 <p>{userData?.readPages}</p>
                 <span>Páginas lidas</span>
               </div>
             </InformationItem>
             <InformationItem>
-              <Books size={24} />
+              <Books size={32} />
               <div>
                 <p>{userData?.ratedBooks}</p>
                 <span>Livros avaliados</span>
               </div>
             </InformationItem>
             <InformationItem>
-              <UserList size={24} />
+              <UserList size={32} />
               <div>
                 <p>{userData?.totalAuthors}</p>
                 <span>Autores lidos</span>
               </div>
             </InformationItem>
             <InformationItem>
-              <BookmarkSimple size={24} />
+              <BookmarkSimple size={32} />
               <div>
                 <p>{userData?.favoriteCategory}</p>
                 <span>Categoria mais lida</span>
               </div>
             </InformationItem>
-          </div>
+          </section>
         </UserData>
       </ProfileContent>
     </ProfileContainer>

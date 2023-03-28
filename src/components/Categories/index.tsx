@@ -10,19 +10,21 @@ interface CategoriesProps {
 export const Categories = ({
   categories,
   activeCategoryId,
-  handleSelectCategory
+  handleSelectCategory,
 }: CategoriesProps) => {
   return (
     <CategoriesContainer>
-      {categories.map((category) => (
-        <Chip
-          onClick={() => handleSelectCategory(category.id)}
-          isActive={activeCategoryId === category.id}
-          key={category.id}
-        >
-          {category.name}
-        </Chip>
-      ))}
+      
+        {categories.map((category) => (
+          <Chip
+            onClick={() => handleSelectCategory(category.id)}
+            isActive={activeCategoryId === category.id}
+            key={category.id}
+          >
+            {category.name}
+          </Chip>
+        ))}
+   
     </CategoriesContainer>
   )
 }

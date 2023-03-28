@@ -1,15 +1,12 @@
 import { styled } from '@/stitches.config'
 
 export const HomeContainer = styled('div', {
-  flex: 1,
-  display: 'flex',
-  gap: '4rem',
-  flexDirection: 'column',
-  alignItems: 'center',
+  display: 'grid',
+  gridRowGap: '4rem',
+  gridTemplateColumns: '1fr',
   '@lg': {
-    flexDirection: 'row',
-    alignItems: 'start',
-    gap: '8rem',
+    gridColumnGap: '5rem',
+    gridTemplateColumns: '3fr minmax(250px, 1fr)',
   },
 })
 
@@ -17,12 +14,15 @@ export const HomeContainer = styled('div', {
 export const RecentRatesList = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '$3',
+  gap: '$4',
   paddingBottom: '$5',
-  marginTop: '3.6rem',
+  marginTop: '2.6rem',
+  minWidth: '100%',
   '> p': {
+    lineHeight: '$short',
+    float: 'right',
+    fontSize: '$md',
     color: '$gray100',
-    fontSize: '$sm',
   },
 })
 
